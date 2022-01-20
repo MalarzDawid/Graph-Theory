@@ -1,48 +1,39 @@
+class Graph:
+    def __init__(self, adj_list: dict, nodes: int) -> None:
+        self.adj_list = adj_list
+        self.nodes = nodes
+        self.visited = [False] * self.nodes
 
-n = 4
-graph = [[0, 1, 1, 0],
-         [1, 0, 1, 0],
-         [1, 1, 0, 1],
-         [0, 0, 1, 0]]
+        
+    def BFS(self, start: int):
+        queue = []
+        queue.append(start)
+        
+        self.visited[start] = True
 
-def reconstructPath(s, e, prev):
-    path = []
-    at = e
-    while at != None:
-        at = prev[at]
-        path.append(at)
-    path.reverse()
+        while queue:
+            node = queue.pop(0)
 
-    if path[0] == s:
-        return path
-    return 0
+            if node in self.adj_list:
+                for adj_node in self.adj_list[node]:
+                    if self.visited[adj_node] == False:
+                        queue.append(adj_node)
+                        self.visited[adj_node] = True
+                        print(adj_node, end=" ")
+        self.visited = [False] * self.nodes
 
-def solve(s):
-    q = []
-    q.append(s)
+    def display(self):
+        for node in self.adj_list.items():
+            print(node)
 
-    visited = [False] * n
-    visited[s] = True
+if __name__ == "__main__":
+    adj_list = {0: [1, 2],
+                1: [0, 3, 4],
+                2: [0, 3],
+                3: [1, 2, 6]}
 
-    prev = [None] * n
-
-    while len(q) != 0:
-        node = q.pop(0)
-        neighbours = graph[node]
-
-        for i in range(1, len(neighbours)):
-            next_ = neighbours[i]
-            if visited[next_] == False:
-                q.append(next_)
-                visited[next_] = True
-                prev[next_] = node
-    return prev
-
-
-def bfs(s, e):
-    prev = solve(s)
-    print("Prev; ", prev)
-    return reconstructPath(s, e, prev)
-
-a = bfs(0, 3)
-print(a)
+    g = Graph(adj_list, 7)
+    print("Start Node: 0")
+    g.BFS(0)
+    print("\nGraph Display: ")
+    g.display()
