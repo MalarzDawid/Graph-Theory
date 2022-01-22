@@ -30,7 +30,7 @@ if __name__ == "__main__":
     adj_list = {0: [1, 2],
                 1: [0, 3, 4],
                 2: [0, 3],
-                3: [1, 2, 6]}
+                3: [1, 2, 5]}
 
     g = Graph(adj_list, 7)
     print("Start Node: 0")
